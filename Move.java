@@ -1,19 +1,30 @@
-public class Move {
+public class Move { // 5 instance variables
     Player activePlayer;
-    int row;
-    int column;
-    public Move(Player p, int r, int c){
+    int smallRow;
+    int smallColumn;
+    int bigRow;
+    int bigColumn;
+
+    public Move(Player p, int sr, int sc, int br, int bc){ //constructor
         activePlayer = p;
-        row = r;
-        column = c;
+        smallRow = sr;
+        smallColumn = sc;
+        bigRow = br;
+        bigColumn = bc;
+    }
+    public int getBigRow() { //getters
+        return bigRow;
+    }
+    public int getBigColumn() {
+        return bigColumn;
     }
     public Player getActivePlayer() {
         return activePlayer;
     }
-    public int getRow() {
-        return row;
+    public int getSmallRow() {
+        return smallRow;
     }
-    public int getColumn() {
-        return column;
+    public int getSmallColumn() {
+        return smallColumn;
     }
 }
