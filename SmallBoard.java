@@ -4,6 +4,10 @@ public class SmallBoard {
     Space[][] spaces = new Space[3][3];
     Player player1;
     Player player2;
+    Space oSpace = new Space("o", 1);
+    Space xSpace = new Space("x", -1);
+    Space basicSpace = new Space("?", 0);
+
 
     public SmallBoard(Player p1, Player p2) {
         player1 = p1;
@@ -13,7 +17,16 @@ public class SmallBoard {
     public void addMove (Move move){
         Space oSpace = new Space("o", 1);
         Space xSpace = new Space("x", -1);
-        if ((move.getActivePlayer()).getType().equals("x")){
+        if (spaces[move.getSmallRow() - 1][move.getSmallColumn() - 1].getNumber() != 0) {
+            System.out.println("Someone has already moved there. Your turn gets skipped LMAO");
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            
+        }
+        else if ((move.getActivePlayer()).getType().equals("x")){
             spaces[move.getSmallRow() - 1][move.getSmallColumn() - 1] = xSpace;
         }
         
@@ -46,10 +59,23 @@ public class SmallBoard {
         } 
         
         if (smallRowTotal == 3 || smallColumnTotal == 3 || smallDiag1Total == 3 || smallDiag2Total == 3) {
-            System.out.println("O wins");
+            System.out.println("O wins the board at row #" + move.getBigRow() + " and column #" + move.getBigColumn());
+            fillSpaces(oSpace);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (smallRowTotal == -3 || smallColumnTotal == -3 || smallDiag1Total == -3 || smallDiag2Total == -3) {
-            System.out.println("X wins");
+            System.out.println("X wins the board at row #" + move.getBigRow() + " and column #" + move.getBigColumn());
+            fillSpaces(xSpace);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
