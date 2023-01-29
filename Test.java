@@ -3,19 +3,15 @@ public class Test {
         Space basicSpace = new Space("?", 0);
         Player player1 = new Player("ABC", "x");
         Player player2 = new Player("DEF", "o");
-        SmallBoard s = new SmallBoard(player1, player2);
-        BigBoard b = new BigBoard(player1, player2);
-        s.fillSpaces(basicSpace);
-        b.fillBoard(s);
-        b.printBoard();
+        SmallBoard defaultBoard = new SmallBoard(player1, player2);
+        defaultBoard.fillSpaces(basicSpace);
+        // BigBoard b = new BigBoard(player1, player2, defaultBoard);
 
-        Move m = new Move(player1, 1, 2, 2, 1);
-        b.takeTurn(m);
-        b.printBoard();
-        // System.out.println("_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_\n_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_ \n ? | ? | ?  █  ? | ? | ?  █  ? | ? | ? "); 
-        // System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
-        // System.out.println("_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_\n_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_ \n ? | ? | ?  █  ? | ? | ?  █  ? | ? | ? ");
-        // System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
-        // System.out.println("_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_\n_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_ \n ? | ? | ?  █  ? | ? | ?  █  ? | ? | ? "); 
+        // b.fillBoard(defaultBoard);
+        // b.printBoard();
+        // Move m = new Move(player1, 1, 1, 1, 1);
+        // b.takeTurn(m);
+        // b.printBoard();
+      
     }
 }

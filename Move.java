@@ -5,12 +5,12 @@ public class Move { // 5 instance variables
     int bigRow;
     int bigColumn;
 
-    public Move(Player p, int sr, int sc, int br, int bc){ //constructor
+    public Move(Player p, int br, int bc, int sr, int sc){ //constructor
         activePlayer = p;
-        smallRow = sr;
-        smallColumn = sc;
         bigRow = br;
         bigColumn = bc;
+        smallRow = sr;
+        smallColumn = sc;
     }
     public int getBigRow() { //getters
         return bigRow;
