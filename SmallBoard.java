@@ -42,11 +42,11 @@ public class SmallBoard {
         //checks row
         for (int i = 0; i < 3; i++)
             smallRowTotal += (spaces[move.getSmallRow() - 1][i]).getNumber();
-        System.out.println(smallRowTotal);
+
         //checks column
         for (int i = 0; i < 3; i++)
             smallColumnTotal += (spaces[i][move.getSmallColumn() - 1]).getNumber();
-        System.out.println(smallColumnTotal);
+            
         //if conditions checks if it is possible a player completed a "\" diagonal on that turn
         if ((move.getSmallColumn() == 1 && move.getSmallRow() == 1) || (move.getSmallColumn() == 2 && move.getSmallRow() == 2) || (move.getSmallColumn() == 3 && move.getSmallRow() == 3)) {
             for (int i = 0; i < 3; i++)

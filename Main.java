@@ -3,9 +3,15 @@ import java.util.ArrayList;
 
 public class Main{
     public static void main(String args []){
-    Player player1 = new Player("ABC", "x");
-    Player player2 = new Player("DEF", "o");
-    Space basicSpace = new Space("?", 0);
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter Player 1 Name: ");
+    String p1Name = sc.nextLine();
+    System.out.println("Enter Player 2 Name: ");
+    String p2Name = sc.nextLine();
+    Player player1 = new Player(p1Name, "x");
+    Player player2 = new Player(p2Name, "o");
+
+    Space basicSpace = new Space(" ", 0);
     Space testSpace = new Space("x", 1);
     SmallBoard defaultBoard = new SmallBoard(player1, player2);
     SmallBoard otherBoard = new SmallBoard(player1, player2);
@@ -36,7 +42,6 @@ public class Main{
     };
 
     boolean checkIfWin = false;
-    Scanner sc = new Scanner(System.in);
 
     ArrayList<Move> gamePath = new ArrayList<Move>();
 
@@ -65,7 +70,7 @@ public class Main{
         }
         i++;
         Move prevMove = gamePath.get(i - 1);
-        System.out.println(activePlayer.getName() + "is are moving in row #" + prevMove.getSmallRow() + " and column #" + prevMove.getSmallColumn());
+        System.out.println(activePlayer.getName() + " is are moving in row #" + prevMove.getSmallRow() + " and column #" + prevMove.getSmallColumn());
         System.out.println(activePlayer.getName() + " enter the new small row: ");
         int newSmallRow = sc.nextInt();
         System.out.println(activePlayer.getName() + " enter the new small column: ");
