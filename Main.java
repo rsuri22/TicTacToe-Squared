@@ -77,21 +77,21 @@ public class Main{
         i++;
         Move prevMove = gamePath.get(i - 1);
         
+        //If player O directs player X to play in a big square that has already been won, player O chooses another big square to direct player X to 
         if (bigBoard[prevMove.getSmallRow() - 1][prevMove.getSmallColumn() - 1].getNumber() == 1) {
             System.out.println("The player playing O can now choose where their opponent's next move will be. Enter a big row: ");
             prevMove.setSmallRow(sc.nextInt());
             System.out.println("Enter a big column: ");
             prevMove.setSmallColumn(sc.nextInt());
         }
-
+        //If player X directs player O to play in a big square that has already been won, player X chooses another big square to direct player O to
         if (bigBoard[prevMove.getSmallRow() - 1][prevMove.getSmallColumn() - 1].getNumber() == -1) {
             System.out.println("The player playing X can now choose where the next move will be. Enter a big row: ");
             prevMove.setSmallRow(sc.nextInt());
             System.out.println("Enter a big column: ");
             prevMove.setSmallColumn(sc.nextInt());
         }
-
-
+ 
         boolean legalMove = false;
         while (!legalMove){
             legalMove = true;
@@ -101,6 +101,7 @@ public class Main{
             System.out.println(activePlayer.getName() + " enter the new small column: ");
             newSmallColumn = sc.nextInt();
 
+            //Checks if move made is within bounds
             if (newSmallColumn > 3 || newSmallRow > 3) {
                 System.out.println("Yeah thats an illegal move. Try again please! ");
                 legalMove = false;
@@ -108,7 +109,7 @@ public class Main{
             }
         }
         
-        
+        //Stores next move 
         Move currentMove = new Move(activePlayer, prevMove.getSmallRow(), prevMove.getSmallColumn(), newSmallRow, newSmallColumn);
 
         gamePath.add(currentMove);
@@ -118,6 +119,7 @@ public class Main{
         }
     }
 
+    //moves cursor
     static void Goto(int y, int x) // top left corner is 1,1
 	{
 		System.out.print("\u001b["+x+";"+y+"H");
@@ -194,26 +196,28 @@ public class Main{
 
     }
     
+    //Checks if a three-in-a-row has occured
     public static void checkWin(SmallBoard[][] bigBoard, Move move){
         int bigColumnTotal = 0;
         int smallRowTotal = 0;
         int smallDiag1Total = 0;
         int smallDiag2Total = 0;
 
+        //sets row value
         for (int i = 0; i < 3; i++)
             smallRowTotal += (bigBoard[move.getBigRow() - 1][i]).getNumber();
 
-        //checks column
+        //sets column value
         for (int i = 0; i < 3; i++)
             bigColumnTotal += (bigBoard[i][move.getSmallColumn() - 1]).getNumber();
             
-        //if conditions checks if it is possible a player completed a "\" diagonal on that turn
+        //if conditions checks if it is possible a player completed a "\" diagonal on that turn, and if so, sets diagonal value
         if ((move.getSmallColumn() == 1 && move.getSmallRow() == 1) || (move.getSmallColumn() == 2 && move.getSmallRow() == 2) || (move.getSmallColumn() == 3 && move.getSmallRow() == 3)) {
             for (int i = 0; i < 3; i++)
             smallDiag1Total += (bigBoard[i][i]).getNumber();
         }
 
-        //if conditions checks if it is possible a player completed a "/" diagonal on that turn
+        //if conditions checks if it is possible a player completed a "/" diagonal on that turn, and if so, sets diagonal value
         if ((move.getSmallColumn() == 1 && move.getSmallRow() == 3) || (move.getSmallColumn() == 2 && move.getSmallRow() == 2) || (move.getSmallColumn() == 3 && move.getSmallRow() == 1)) {
             for (int i = 0; i < 3; i++)
             smallDiag2Total += (bigBoard[i][2-i]).getNumber();

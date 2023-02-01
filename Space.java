@@ -9,20 +9,11 @@ public class Space {
         number = n;
     }
 
-    // public void setAsO(){
-    // value = "o";
-    // number = 1;
-    // }
-    // public void setAsX() {
-    // value = "x";
-    // number = -1;
-    // }
-
     public String toString() { // toString method
         return value;
     }
 
-    public String getValue() {
+    public String getValue() { // getters
         return value;
     }
 
@@ -30,7 +21,7 @@ public class Space {
         return number;
     }
 
-    public void setValue(String value) {
+    public void setValue(String value) { // setters
         this.value = value;
     }
 

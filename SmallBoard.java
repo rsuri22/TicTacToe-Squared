@@ -1,21 +1,21 @@
 import java.util.Arrays;
 
 public class SmallBoard {
-    Space[][] spaces = new Space[3][3];
-    Player player1;
+    Space[][] spaces = new Space[3][3]; // 3x3 array for the smallboard
+    Player player1; // creates players
     Player player2;
-    Space oSpace = new Space("o", 1);
+    Space oSpace = new Space("o", 1); 
     Space xSpace = new Space("x", -1);
     Space basicSpace = new Space("?", 0);
     int number = 0;
 
 
-    public SmallBoard(Player p1, Player p2) {
+    public SmallBoard(Player p1, Player p2) { //construct smallboard
         player1 = p1;
         player2 = p2;
     }
 
-    public void addMove (Move move){
+    public void addMove (Move move){ 
         Space oSpace = new Space("o", 1);
         Space xSpace = new Space("x", -1);
         if (spaces[move.getSmallRow() - 1][move.getSmallColumn() - 1].getNumber() != 0) {

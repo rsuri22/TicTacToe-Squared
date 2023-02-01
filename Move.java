@@ -12,7 +12,7 @@ public class Move { // 5 instance variables
         smallRow = sr;
         smallColumn = sc;
     }
-    public void setSmallRow(int smallRow) {
+    public void setSmallRow(int smallRow) { // setters
         this.smallRow = smallRow;
     }
     public void setSmallColumn(int smallColumn) {
