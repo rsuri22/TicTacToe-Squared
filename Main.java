@@ -2,20 +2,20 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main{
-    public static void main(String args []){
+    public static void main(String[] args){
+
     Scanner sc = new Scanner(System.in);
     System.out.println("Enter Player 1 Name: ");
+    //Creates Players 
     String p1Name = sc.nextLine();
     System.out.println("Enter Player 2 Name: ");
     String p2Name = sc.nextLine();
     Player player1 = new Player(p1Name, "x");
     Player player2 = new Player(p2Name, "o");
 
+    //Initializes board elements and creates board
     Space basicSpace = new Space(" ", 0);
-    Space testSpace = new Space("x", 1);
     SmallBoard defaultBoard = new SmallBoard(player1, player2);
-    SmallBoard otherBoard = new SmallBoard(player1, player2);
-    otherBoard.fillSpaces(testSpace);
     defaultBoard.fillSpaces(basicSpace);
     SmallBoard board1 = new SmallBoard(player1, player2);
     SmallBoard board2 = new SmallBoard(player1, player2);
@@ -43,8 +43,11 @@ public class Main{
 
     boolean checkIfWin = false;
 
+    //Stores completed game moves
     ArrayList<Move> gamePath = new ArrayList<Move>();
 
+
+    //Sets active player then starts the game with the first move
     Player activePlayer = player1;
     printBoard(bigBoard);
     System.out.println("\n" + activePlayer.getName() + " enter the big row: ");
@@ -57,9 +60,12 @@ public class Main{
     int firstSmallColumn = sc.nextInt();
     Move firstMove = new Move(activePlayer, firstBigRow, firstBigColumn, firstSmallRow, firstSmallColumn);
     gamePath.add(firstMove);
-    takeTurn(firstMove, bigBoard);
+    takeTurn(firstMove, bigBoard, activePlayer);
 
+    //Gameloop
     int i = 0;
+    int newSmallRow = 0;
+    int newSmallColumn = 0;
     while (!checkIfWin) {
         printBoard(bigBoard);
         if (activePlayer == player1) {
@@ -70,17 +76,45 @@ public class Main{
         }
         i++;
         Move prevMove = gamePath.get(i - 1);
-        System.out.println(activePlayer.getName() + " is are moving in row #" + prevMove.getSmallRow() + " and column #" + prevMove.getSmallColumn());
-        System.out.println(activePlayer.getName() + " enter the new small row: ");
-        int newSmallRow = sc.nextInt();
-        System.out.println(activePlayer.getName() + " enter the new small column: ");
-        int newSmallColumn = sc.nextInt();
+        
+        if (bigBoard[prevMove.getSmallRow() - 1][prevMove.getSmallColumn() - 1].getNumber() == 1) {
+            System.out.println("The player playing O can now choose where their opponent's next move will be. Enter a big row: ");
+            prevMove.setSmallRow(sc.nextInt());
+            System.out.println("Enter a big column: ");
+            prevMove.setSmallColumn(sc.nextInt());
+        }
+
+        if (bigBoard[prevMove.getSmallRow() - 1][prevMove.getSmallColumn() - 1].getNumber() == -1) {
+            System.out.println("The player playing X can now choose where the next move will be. Enter a big row: ");
+            prevMove.setSmallRow(sc.nextInt());
+            System.out.println("Enter a big column: ");
+            prevMove.setSmallColumn(sc.nextInt());
+        }
+
+
+        boolean legalMove = false;
+        while (!legalMove){
+            legalMove = true;
+            System.out.println(activePlayer.getName() + " is are moving in row #" + prevMove.getSmallRow() + " and column #" + prevMove.getSmallColumn());
+            System.out.println(activePlayer.getName() + " enter the new small row: ");
+            newSmallRow = sc.nextInt();
+            System.out.println(activePlayer.getName() + " enter the new small column: ");
+            newSmallColumn = sc.nextInt();
+
+            if (newSmallColumn > 3 || newSmallRow > 3) {
+                System.out.println("Yeah thats an illegal move. Try again please! ");
+                legalMove = false;
+                continue;
+            }
+        }
         
         
         Move currentMove = new Move(activePlayer, prevMove.getSmallRow(), prevMove.getSmallColumn(), newSmallRow, newSmallColumn);
+
         gamePath.add(currentMove);
 
-        takeTurn(currentMove, bigBoard);
+        takeTurn(currentMove, bigBoard, activePlayer);
+        checkWin(bigBoard, currentMove);
         }
     }
 
@@ -89,12 +123,12 @@ public class Main{
 		System.out.print("\u001b["+x+";"+y+"H");
 	}
 
-
-    public static void takeTurn (Move move, SmallBoard[][] bigBoard){
+    public static void takeTurn (Move move, SmallBoard[][] bigBoard, Player activePlayer){
         bigBoard[move.getBigRow() - 1][move.getBigColumn() - 1].addMove(move);
     }
 
     public static void printBoard(SmallBoard[][] bigBoard){
+
         System.out.print("\033[H\033[2J");
         System.out.print("\033[H");
         bigBoard[0][0].printBoard(1, 1);
@@ -160,53 +194,52 @@ public class Main{
 
     }
     
+    public static void checkWin(SmallBoard[][] bigBoard, Move move){
+        int bigColumnTotal = 0;
+        int smallRowTotal = 0;
+        int smallDiag1Total = 0;
+        int smallDiag2Total = 0;
 
+        for (int i = 0; i < 3; i++)
+            smallRowTotal += (bigBoard[move.getBigRow() - 1][i]).getNumber();
 
+        //checks column
+        for (int i = 0; i < 3; i++)
+            bigColumnTotal += (bigBoard[i][move.getSmallColumn() - 1]).getNumber();
+            
+        //if conditions checks if it is possible a player completed a "\" diagonal on that turn
+        if ((move.getSmallColumn() == 1 && move.getSmallRow() == 1) || (move.getSmallColumn() == 2 && move.getSmallRow() == 2) || (move.getSmallColumn() == 3 && move.getSmallRow() == 3)) {
+            for (int i = 0; i < 3; i++)
+            smallDiag1Total += (bigBoard[i][i]).getNumber();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        // Scanner sc = new Scanner(System.in);
-        // System.out.println("What is the first player's name?");
-        // String p1Name = sc.nextLine();
-        // Player player1 = new Player(p1Name, "x"); //setup first player
-        // System.out.println("What is the second player's name?");
-        // String p2Name = sc.nextLine();
-        // Player player2 = new Player(p2Name, "o"); //setup second player
-        // System.out.println(p1Name + ", you will be x's. " + p2Name + ", you will be o's.");
-
-        // sc.close();
+        //if conditions checks if it is possible a player completed a "/" diagonal on that turn
+        if ((move.getSmallColumn() == 1 && move.getSmallRow() == 3) || (move.getSmallColumn() == 2 && move.getSmallRow() == 2) || (move.getSmallColumn() == 3 && move.getSmallRow() == 1)) {
+            for (int i = 0; i < 3; i++)
+            smallDiag2Total += (bigBoard[i][2-i]).getNumber();
+        } 
         
-        // System.out.println("What is player 1's name?");
-        // String name = sc.nextLine();
-        // System.out.println("Hello, " + name + ". How tall are you (cm)?");
-        // double height = sc.nextDouble();
-        // System.out.println("What is your gpa?");
-        // int gpa = sc.nextInt();
-        // System.out.println("How many hours have you spent outside in the past month?");
-        // int hoursOutside = sc.nextInt();
-        // System.out.println("Rate your rizz from 1-10");
-        // double rizzRating = sc.nextDouble();
-        // Player p1 = new Player(name, height, gpa, hoursOutside, rizzRating );
+        if (smallRowTotal == 3 || bigColumnTotal == 3 || smallDiag1Total == 3 || smallDiag2Total == 3) {
+            printBoard(bigBoard);
+            System.out.println(" ██████╗     ██╗    ██╗██╗███╗   ██╗███████╗    ████████╗██╗  ██╗███████╗     ██████╗  █████╗ ███╗   ███╗███████╗██╗");
+            System.out.println("██╔═══██╗    ██║    ██║██║████╗  ██║██╔════╝    ╚══██╔══╝██║  ██║██╔════╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝██║");
+            System.out.println("██║   ██║    ██║ █╗ ██║██║██╔██╗ ██║███████╗       ██║   ███████║█████╗      ██║  ███╗███████║██╔████╔██║█████╗  ██║");
+            System.out.println("██║   ██║    ██║███╗██║██║██║╚██╗██║╚════██║       ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ╚═╝");
+            System.out.println("╚██████╔╝    ╚███╔███╔╝██║██║ ╚████║███████║       ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██╗");
+            System.out.println(" ╚═════╝      ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝");
+            System.exit(0);
+        }
 
-        // System.out.println("What is player 2's name?");
-        // String name2 = sc.nextLine();
-        // System.out.println("Hello, " + name2 + ". How tall are you (cm)?");
-        // double height2 = sc.nextDouble();
-        // System.out.println("What is your gpa?");
-        // int gpa2 = sc.nextInt();
-        // System.out.println("How many hours have you spent outside in the past month?");
-        // int hoursOutside2 = sc.nextInt();
-        // System.out.println("Rate your rizz from 1-10");
-        // double rizzRating2 = sc.nextDouble();
-        // Player p2 = new Player(name2, height2, gpa2, hoursOutside2, rizzRating2 );
+        if (smallRowTotal == -3 || bigColumnTotal == -3 || smallDiag1Total == -3 || smallDiag2Total == -3) {
+            printBoard(bigBoard);
+            System.out.println("██╗  ██╗    ██╗    ██╗██╗███╗   ██╗███████╗    ████████╗██╗  ██╗███████╗     ██████╗  █████╗ ███╗   ███╗███████╗██╗");
+            System.out.println("╚██╗██╔╝    ██║    ██║██║████╗  ██║██╔════╝    ╚══██╔══╝██║  ██║██╔════╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝██║");
+            System.out.println(" ╚███╔╝     ██║ █╗ ██║██║██╔██╗ ██║███████╗       ██║   ███████║█████╗      ██║  ███╗███████║██╔████╔██║█████╗  ██║");
+            System.out.println(" ██╔██╗     ██║███╗██║██║██║╚██╗██║╚════██║       ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ╚═╝");
+            System.out.println("██╔╝ ██╗    ╚███╔███╔╝██║██║ ╚████║███████║       ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗██╗");
+            System.out.println("╚═╝  ╚═╝     ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚══════╝       ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝");
+            System.exit(0);
+        }
+    }
 }
+

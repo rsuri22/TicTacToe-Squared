@@ -7,6 +7,7 @@ public class SmallBoard {
     Space oSpace = new Space("o", 1);
     Space xSpace = new Space("x", -1);
     Space basicSpace = new Space("?", 0);
+    int number = 0;
 
 
     public SmallBoard(Player p1, Player p2) {
@@ -24,8 +25,8 @@ public class SmallBoard {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            
         }
+
         else if ((move.getActivePlayer()).getType().equals("x")){
             spaces[move.getSmallRow() - 1][move.getSmallColumn() - 1] = xSpace;
         }
@@ -61,6 +62,7 @@ public class SmallBoard {
         if (smallRowTotal == 3 || smallColumnTotal == 3 || smallDiag1Total == 3 || smallDiag2Total == 3) {
             System.out.println("O wins the board at row #" + move.getBigRow() + " and column #" + move.getBigColumn());
             fillSpaces(oSpace);
+            number = 1;
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -70,6 +72,7 @@ public class SmallBoard {
         if (smallRowTotal == -3 || smallColumnTotal == -3 || smallDiag1Total == -3 || smallDiag2Total == -3) {
             System.out.println("X wins the board at row #" + move.getBigRow() + " and column #" + move.getBigColumn());
             fillSpaces(xSpace);
+            number = -1;
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -86,9 +89,12 @@ public class SmallBoard {
 
             }
         }
-
-
     }
+
+    public int getNumber() {
+        return number;
+    }
+
     static void Goto(int y, int x) // top left corner is 1,1
 	{
 		System.out.print("\u001b["+x+";"+y+"H");
@@ -108,9 +114,6 @@ public class SmallBoard {
 
             }
         }
-
-        // System.out.println("_?_|_?_|_?_ █ _?_|_?_|_?_ █ _?_|_?_|_?_\n_?_|_?_|_?_ █
-        // _?_|_?_|_?_ █ _?_|_?_|_?_ \n ? | ? | ? █ ? | ? | ? █ ? | ? | ? ");
 
     }
 

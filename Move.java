@@ -12,6 +12,18 @@ public class Move { // 5 instance variables
         smallRow = sr;
         smallColumn = sc;
     }
+    public void setSmallRow(int smallRow) {
+        this.smallRow = smallRow;
+    }
+    public void setSmallColumn(int smallColumn) {
+        this.smallColumn = smallColumn;
+    }
+    public void setBigRow(int bigRow) {
+        this.bigRow = bigRow;
+    }
+    public void setBigColumn(int bigColumn) {
+        this.bigColumn = bigColumn;
+    }
     public int getBigRow() { //getters
         return bigRow;
     }
